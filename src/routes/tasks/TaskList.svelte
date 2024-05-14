@@ -1,6 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { type Task } from "../../lib/domain/task";
   import TaskDetail from "./TaskDetail.svelte";
+
+  let tasks: Task[] | undefined = undefined;
+  onMount(async () => {
+    tasks = await fetchTasks();
+  });
 
   const fetchTasks = async () => {
     try {
@@ -9,12 +15,11 @@
       );
       const data = await response.json();
       console.log(data);
+      return data as Task[];
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
   };
-
-  const tasks = fetchTasks();
 </script>
 
 <div class="task-wrapper">
@@ -25,9 +30,11 @@
     <p>TERMIN</p>
   </div>
   <ul class="task-list">
-    <!-- {#each tasks as task}
-      <li><TaskDetail {task} /></li>
-    {/each} -->
+    {#if tasks}
+      {#each tasks as task}
+        <li><TaskDetail {task} /></li>
+      {/each}
+    {/if}
   </ul>
 </div>
 

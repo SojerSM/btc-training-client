@@ -2,6 +2,7 @@
   import { API_URL } from "../../util/global";
   import { type TaskDTO } from "../../lib/dto/taskDTO";
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
+  import { addTask } from "../../stores/taskStore";
 
   let title: string;
   let deadline: Date;
@@ -12,12 +13,16 @@
       deadline: deadline,
     };
 
-    console.log(task);
-
     sendHttpRequest(API_URL.concat("/task"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task),
+    });
+
+    addTask({
+      title: task.title,
+      isFinished: false,
+      deadline: task.deadline,
     });
   };
 </script>

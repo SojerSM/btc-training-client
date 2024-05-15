@@ -2,15 +2,10 @@
   import { onMount } from "svelte";
   import { type Task } from "../../lib/domain/task";
   import TaskDetail from "./TaskDetail.svelte";
-  import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
-  import { API_URL } from "../../util/global";
-
-  let tasks: Task[] | undefined = undefined;
+  import { tasks, populateTasks } from "../../stores/taskStore";
 
   onMount(async () => {
-    tasks = await sendHttpRequest<Task[]>(API_URL.concat("/task"), {
-      method: "GET",
-    });
+    await populateTasks();
   });
 </script>
 
@@ -22,8 +17,8 @@
     <p>TERMIN</p>
   </div>
   <ul class="task-list">
-    {#if tasks}
-      {#each tasks as task}
+    {#if $tasks}
+      {#each $tasks as task}
         <li><TaskDetail {task} /></li>
       {/each}
     {/if}

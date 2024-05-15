@@ -1,4 +1,10 @@
-<script>
+<script lang="ts">
+  import { getContext } from "svelte";
+  import type { Context } from "svelte-simple-modal";
+  import AddTaskForm from "../forms/AddTaskForm.svelte";
+
+  const { open } = getContext<Context>("simple-modal");
+  const showModal = () => open(AddTaskForm);
 </script>
 
 <div class="internal-nav">
@@ -9,8 +15,8 @@
     <li>Przeterminowane</li>
   </ul>
   <div class="action-btns">
-    <button>Dodaj</button>
-    <button>Usuń</button>
+    <button on:click={showModal}>Dodaj</button>
+    <button on:click={showModal}>Usuń</button>
   </div>
 </div>
 

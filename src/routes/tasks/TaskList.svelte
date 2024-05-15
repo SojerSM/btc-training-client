@@ -2,24 +2,16 @@
   import { onMount } from "svelte";
   import { type Task } from "../../lib/domain/task";
   import TaskDetail from "./TaskDetail.svelte";
+  import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
+  import { API_URL } from "../../util/global";
 
   let tasks: Task[] | undefined = undefined;
-  onMount(async () => {
-    tasks = await fetchTasks();
-  });
 
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8080/btc-training/api/v1/task"
-      );
-      const data = await response.json();
-      console.log(data);
-      return data as Task[];
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
+  onMount(async () => {
+    tasks = await sendHttpRequest<Task[]>(API_URL.concat("/task"), {
+      method: "GET",
+    });
+  });
 </script>
 
 <div class="task-wrapper">

@@ -1,11 +1,14 @@
-<script>
+<script lang="ts">
   import Selector from "./actions/Selector.svelte";
   import TaskList from "./tasks/TaskList.svelte";
+  import { Modal } from "svelte-simple-modal";
 </script>
 
 <div>
-  <Selector />
-  <TaskList />
+  <Modal>
+    <Selector />
+    <TaskList />
+  </Modal>
 </div>
 
 <style>

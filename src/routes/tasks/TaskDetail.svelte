@@ -1,10 +1,17 @@
 <script lang="ts">
   export let task;
+
+  import { getContext } from "svelte";
+  import type { Context } from "svelte-simple-modal";
+  import AddTaskForm from "../forms/AddTaskForm.svelte";
+
+  const { open } = getContext<Context>("simple-modal");
+  const showModal = () => open(AddTaskForm);
 </script>
 
 <div>
   <input type="checkbox" value="" />
-  <button>Edytuj</button>
+  <button on:click={showModal}>Edytuj</button>
   <p>{task.title}</p>
   <input type="checkbox" value="" />
   <p>{task.deadline.toLocaleString()}</p>

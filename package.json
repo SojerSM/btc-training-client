@@ -18,5 +18,8 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "svelte-simple-modal": "^1.6.2"
   }
 }

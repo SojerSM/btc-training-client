@@ -4,13 +4,25 @@
   import { getContext } from "svelte";
   import type { Context } from "svelte-simple-modal";
   import AddTaskForm from "../forms/AddTaskForm.svelte";
+  import {
+    selected,
+    addSelectedId,
+    removeSelectedId,
+  } from "../../stores/taskStore";
 
   const { open } = getContext<Context>("simple-modal");
   const showModal = () => open(AddTaskForm);
+
+  const handleSelect = (event: Event) => {
+    const isChecked: boolean = (event.target as HTMLInputElement).checked;
+
+    isChecked ? addSelectedId(task.id) : removeSelectedId(task.id);
+    console.log($selected);
+  };
 </script>
 
 <div>
-  <input type="checkbox" value="" />
+  <input type="checkbox" on:change={handleSelect} />
   <button on:click={showModal}>Edytuj</button>
   <p>{task.title}</p>
   <input type="checkbox" value="" />

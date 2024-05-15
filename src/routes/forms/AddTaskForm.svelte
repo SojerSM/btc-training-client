@@ -13,13 +13,14 @@
       deadline: deadline,
     };
 
-    sendHttpRequest(API_URL.concat("/task"), {
+    const data = await sendHttpRequest(API_URL.concat("/task"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task),
     });
 
     addTask({
+      id: data.id,
       title: task.title,
       isFinished: false,
       deadline: task.deadline,

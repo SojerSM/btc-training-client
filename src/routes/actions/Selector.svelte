@@ -2,9 +2,11 @@
   import { getContext } from "svelte";
   import type { Context } from "svelte-simple-modal";
   import AddTaskForm from "../forms/AddTaskForm.svelte";
+  import RemoveTasksForm from "../forms/RemoveTasksForm.svelte";
 
   const { open } = getContext<Context>("simple-modal");
-  const showModal = () => open(AddTaskForm);
+  const showModalAdd = () => open(AddTaskForm);
+  const showModalDel = () => open(RemoveTasksForm);
 </script>
 
 <div class="internal-nav">
@@ -15,8 +17,8 @@
     <li>Przeterminowane</li>
   </ul>
   <div class="action-btns">
-    <button on:click={showModal}>Dodaj</button>
-    <button on:click={showModal}>Usuń</button>
+    <button on:click={showModalAdd}>Dodaj</button>
+    <button on:click={showModalDel}>Usuń</button>
   </div>
 </div>
 

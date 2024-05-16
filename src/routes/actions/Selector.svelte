@@ -3,6 +3,8 @@
   import type { Context } from "svelte-simple-modal";
   import AddTaskForm from "../forms/AddTaskForm.svelte";
   import RemoveTasksForm from "../forms/RemoveTasksForm.svelte";
+  import { Filter } from "../../lib/enum/filter";
+  import { fetchTasks } from "../../stores/taskStore";
 
   const { open } = getContext<Context>("simple-modal");
   const showModalAdd = () => open(AddTaskForm);
@@ -11,10 +13,26 @@
 
 <div class="internal-nav">
   <ul>
-    <li>Wszystkie</li>
-    <li>Wykonane</li>
-    <li>Oczekujące</li>
-    <li>Przeterminowane</li>
+    <li>
+      <button class="option" on:click={() => fetchTasks(Filter.ALL)}
+        >Wszystkie</button
+      >
+    </li>
+    <li>
+      <button class="option" on:click={() => fetchTasks(Filter.DONE)}
+        >Wykonane</button
+      >
+    </li>
+    <li>
+      <button class="option" on:click={() => fetchTasks(Filter.PENDING)}
+        >Oczekujące</button
+      >
+    </li>
+    <li>
+      <button class="option" on:click={() => fetchTasks(Filter.OUTDATED)}
+        >Przeterminowane</button
+      >
+    </li>
   </ul>
   <div class="action-btns">
     <button on:click={showModalAdd}>Dodaj</button>
@@ -49,8 +67,17 @@
     color: rgb(46, 46, 46);
   }
 
+  li:active {
+    font-weight: 500;
+    color: black;
+  }
+
   .action-btns {
     display: flex;
     gap: 1vw;
+  }
+
+  .option {
+    all: unset;
   }
 </style>

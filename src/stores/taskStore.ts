@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import { type Task } from "../lib/domain/task";
 import { sendHttpRequest } from "../util/helpers/httpRestHandler";
 import { API_URL } from "../util/global";
+import type { Filter } from "../lib/enum/filter";
 
 const initialTasks: Task[] = [];
 const selectedId: number[] = [];
@@ -39,9 +40,17 @@ export const removeById = (ids: number[]) => {
   );
 };
 
-export const populateTasks = async () => {
+export const fetchTasks = async (filter: Filter) => {
   setTasks(
-    await sendHttpRequest<Task[]>(API_URL.concat("/task"), {
+    await sendHttpRequest<Task[]>(API_URL.concat(`/task?filter=${filter}`), {
+      method: "GET",
+    })
+  );
+};
+
+export const fetchByTitle = async (title: string) => {
+  setTasks(
+    await sendHttpRequest<Task[]>(API_URL.concat(`/task?title=${title}`), {
       method: "GET",
     })
   );

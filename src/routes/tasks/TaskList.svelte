@@ -1,16 +1,31 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { type Task } from "../../lib/domain/task";
   import TaskDetail from "./TaskDetail.svelte";
-  import { tasks, populateTasks } from "../../stores/taskStore";
+  import { tasks, fetchTasks, fetchByTitle } from "../../stores/taskStore";
+  import { Filter } from "../../lib/enum/filter";
+
+  let searchQuery: string;
 
   onMount(async () => {
-    await populateTasks();
+    await fetchTasks(Filter.ALL);
   });
+
+  const searchByTitle = async (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      const query = (event.target as HTMLInputElement).value.trim();
+      console.log(query);
+      await fetchByTitle(query);
+    }
+  };
 </script>
 
 <div class="task-wrapper">
-  <input type="text" placeholder="wyszukaj" />
+  <input
+    id="search-field"
+    type="text"
+    placeholder="wyszukaj"
+    on:keydown={searchByTitle}
+  />
   <div class="labels">
     <p>ZADANIE</p>
     <p>WYKONANE</p>
@@ -54,5 +69,13 @@
 
   p:nth-child(2) {
     width: 8%;
+  }
+
+  #search-field {
+    border: none;
+    outline: none;
+    padding: 0.25rem;
+    width: 15rem;
+    border-radius: 5px;
   }
 </style>

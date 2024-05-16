@@ -6,14 +6,18 @@
 
   let title: string;
   let deadline: Date;
+  let finished: boolean;
 
   const handleSubmit = async () => {
     const task: TaskDTO = {
-      title: title,
-      deadline: deadline,
+      title,
+      deadline,
+      finished,
     };
 
-    const data = await sendHttpRequest(API_URL.concat("/task"), {
+    console.log(task);
+
+    const data = await sendHttpRequest<TaskDTO>(API_URL.concat("/task"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task),
@@ -22,7 +26,7 @@
     addTask({
       id: data.id,
       title: task.title,
-      isFinished: false,
+      finished: task.finished,
       deadline: task.deadline,
     });
   };
@@ -33,6 +37,7 @@
   <form on:submit|preventDefault={handleSubmit}>
     <input type="text" placeholder="opis" bind:value={title} />
     <input type="datetime-local" bind:value={deadline} />
+    <input type="checkbox" bind:checked={finished} />
     <button type="button" on:click={handleSubmit}>Dodaj</button>
   </form>
 </div>

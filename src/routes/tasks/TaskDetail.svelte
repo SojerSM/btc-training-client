@@ -13,20 +13,33 @@
   const { open } = getContext<Context>("simple-modal");
   const showModal = () => open(AddTaskForm);
 
+  let outdated = new Date(task.deadline) < new Date() && !task.finished;
+  console.log(outdated);
+
   const handleSelect = (event: Event) => {
     const isChecked: boolean = (event.target as HTMLInputElement).checked;
-
     isChecked ? addSelectedId(task.id) : removeSelectedId(task.id);
-    console.log($selected);
   };
+
+  const handleSetFinished = (event: Event) => {};
 </script>
 
 <div>
   <input type="checkbox" on:change={handleSelect} />
   <button on:click={showModal}>Edytuj</button>
-  <p>{task.title}</p>
-  <input type="checkbox" value="" />
-  <p>{task.deadline.toLocaleString()}</p>
+  <p
+    class={`${task.finished ? "done" : new Date(task.deadline) < new Date() ? "outdated" : ""}`}
+  >
+    {task.title}
+  </p>
+  <input
+    type="checkbox"
+    checked={task.finished}
+    on:change={handleSetFinished}
+  />
+  <p class={`${task.finished ? "done" : ""}`}>
+    {task.deadline.toLocaleString()}
+  </p>
 </div>
 
 <style>
@@ -35,7 +48,9 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid lightgray;
   }
 
   input:first-child {
@@ -53,5 +68,17 @@
 
   input:last-of-type {
     width: 8%;
+  }
+
+  p:last-of-type {
+    margin-left: 2rem;
+  }
+
+  .done {
+    color: lime;
+  }
+
+  .outdated {
+    color: red;
   }
 </style>

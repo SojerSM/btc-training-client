@@ -71,6 +71,10 @@
     width: 8%;
   }
 
+  p:nth-child(3) {
+    margin-left: 2rem;
+  }
+
   #search-field {
     border: none;
     outline: none;

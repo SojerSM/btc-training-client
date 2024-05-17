@@ -1,15 +1,17 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { type Task } from "../lib/domain/task";
 import { sendHttpRequest } from "../util/helpers/httpRestHandler";
 import { API_URL } from "../util/global";
-import type { Filter } from "../lib/enum/filter";
+import { Filter } from "../lib/enum/filter";
 import type { TaskDTO } from "../lib/dto/taskDTO";
 
 const initialTasks: Task[] = [];
 const selectedId: number[] = [];
+const filter: Filter = Filter.ALL;
 
 export const tasks = writable<Task[]>(initialTasks);
 export const selected = writable<number[]>(selectedId);
+export const currentFilter = writable<Filter>(filter);
 
 export const setTasks = (newTasks: Task[]) => {
   tasks.set(newTasks);
@@ -17,6 +19,10 @@ export const setTasks = (newTasks: Task[]) => {
 
 export const setSelected = (updated: number[]) => {
   selected.set(updated);
+};
+
+export const setCurrentFilter = (updated: Filter) => {
+  currentFilter.set(updated);
 };
 
 export const addTask = (newTask: Task) => {
@@ -58,11 +64,11 @@ export const fetchByTitle = async (title: string) => {
 };
 
 export const updateTask = async (id: number, task: TaskDTO) => {
-  const data = await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
+  await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(task),
   });
 
-  return data;
+  fetchTasks(get(currentFilter));
 };

@@ -4,32 +4,37 @@
   import AddTaskForm from "../forms/AddTaskForm.svelte";
   import RemoveTasksForm from "../forms/RemoveTasksForm.svelte";
   import { Filter } from "../../lib/enum/filter";
-  import { fetchTasks } from "../../stores/taskStore";
+  import { fetchTasks, setCurrentFilter } from "../../stores/taskStore";
 
   const { open } = getContext<Context>("simple-modal");
   const showModalAdd = () => open(AddTaskForm);
   const showModalDel = () => open(RemoveTasksForm);
+
+  const handleClick = (filter: Filter) => {
+    fetchTasks(filter);
+    setCurrentFilter(filter);
+  };
 </script>
 
 <div class="internal-nav">
   <ul>
     <li>
-      <button class="option" on:click={() => fetchTasks(Filter.ALL)}
+      <button class="option" on:click={() => handleClick(Filter.ALL)}
         >Wszystkie</button
       >
     </li>
     <li>
-      <button class="option" on:click={() => fetchTasks(Filter.DONE)}
+      <button class="option" on:click={() => handleClick(Filter.DONE)}
         >Wykonane</button
       >
     </li>
     <li>
-      <button class="option" on:click={() => fetchTasks(Filter.PENDING)}
+      <button class="option" on:click={() => handleClick(Filter.PENDING)}
         >Oczekujące</button
       >
     </li>
     <li>
-      <button class="option" on:click={() => fetchTasks(Filter.OUTDATED)}
+      <button class="option" on:click={() => handleClick(Filter.OUTDATED)}
         >Przeterminowane</button
       >
     </li>

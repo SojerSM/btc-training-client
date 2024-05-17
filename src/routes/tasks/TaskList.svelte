@@ -33,9 +33,14 @@
   </div>
   <ul class="task-list">
     {#if $tasks}
-      {#each $tasks as task}
-        <li><TaskDetail {task} /></li>
-      {/each}
+      {#key $tasks}
+        {#each $tasks as task}
+          <li><TaskDetail {task} /></li>
+        {/each}
+      {/key}
+    {/if}
+    {#if $tasks.length === 0}
+      <p class="alternative">Brak zadań do wyświetlenia.</p>
     {/if}
   </ul>
 </div>
@@ -60,6 +65,10 @@
 
   .task-list {
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
   }
 
   p:first-child {
@@ -81,5 +90,10 @@
     padding: 0.25rem;
     width: 15rem;
     border-radius: 5px;
+  }
+
+  .alternative {
+    margin-top: 1rem;
+    align-self: center;
   }
 </style>

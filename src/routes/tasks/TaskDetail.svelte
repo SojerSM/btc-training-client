@@ -3,16 +3,17 @@
 
   import { getContext } from "svelte";
   import type { Context } from "svelte-simple-modal";
-  import AddTaskForm from "../forms/AddTaskForm.svelte";
+  import UpdateTaskForm from "../forms/UpdateTaskForm.svelte";
   import type { TaskDTO } from "../../lib/dto/taskDTO";
   import {
     addSelectedId,
     removeSelectedId,
     updateTask,
   } from "../../stores/taskStore";
+  import { formatDate } from "../../util/helpers/dateUtils";
 
   const { open } = getContext<Context>("simple-modal");
-  const showModal = () => open(AddTaskForm);
+  const showModal = () => open(UpdateTaskForm, { id: task.id });
 
   const handleSelect = (event: Event) => {
     const isChecked: boolean = (event.target as HTMLInputElement).checked;
@@ -28,8 +29,7 @@
       finished: isChecked,
     };
 
-    const data = updateTask(task.id, updated);
-    console.log(data);
+    updateTask(task.id, updated);
   };
 </script>
 
@@ -46,8 +46,10 @@
     checked={task.finished}
     on:change={handleSetFinished}
   />
-  <p class={`${task.finished ? "done" : ""}`}>
-    {task.deadline.toLocaleString()}
+  <p
+    class={`${task.finished ? "done" : new Date(task.deadline) < new Date() ? "outdated" : ""}`}
+  >
+    {formatDate(task.deadline)}
   </p>
 </div>
 

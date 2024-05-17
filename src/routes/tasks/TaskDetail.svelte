@@ -13,9 +13,6 @@
   const { open } = getContext<Context>("simple-modal");
   const showModal = () => open(AddTaskForm);
 
-  let outdated = new Date(task.deadline) < new Date() && !task.finished;
-  console.log(outdated);
-
   const handleSelect = (event: Event) => {
     const isChecked: boolean = (event.target as HTMLInputElement).checked;
     isChecked ? addSelectedId(task.id) : removeSelectedId(task.id);

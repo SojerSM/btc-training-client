@@ -1,14 +1,9 @@
 <script>
-  import { navigate } from "svelte-routing";
-
-  const onSubmit = () => {
-    navigate("/todo", { replace: true });
-  };
+  import AuthForm from "./forms/AuthForm.svelte";
 </script>
 
 <div>
-  Login page
-  <button on:click={onSubmit}> Sign in </button>
+  <AuthForm />
 </div>
 
 <style>

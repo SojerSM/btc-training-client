@@ -4,10 +4,11 @@
   import { getContext } from "svelte";
   import type { Context } from "svelte-simple-modal";
   import AddTaskForm from "../forms/AddTaskForm.svelte";
+  import type { TaskDTO } from "../../lib/dto/taskDTO";
   import {
-    selected,
     addSelectedId,
     removeSelectedId,
+    updateTask,
   } from "../../stores/taskStore";
 
   const { open } = getContext<Context>("simple-modal");
@@ -18,7 +19,18 @@
     isChecked ? addSelectedId(task.id) : removeSelectedId(task.id);
   };
 
-  const handleSetFinished = (event: Event) => {};
+  const handleSetFinished = (event: Event) => {
+    const isChecked: boolean = (event.target as HTMLInputElement).checked;
+
+    const updated: TaskDTO = {
+      title: task.title,
+      deadline: task.deadline,
+      finished: isChecked,
+    };
+
+    const data = updateTask(task.id, updated);
+    console.log(data);
+  };
 </script>
 
 <div>

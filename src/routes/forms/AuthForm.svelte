@@ -1,6 +1,5 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
-  import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import type { AuthRequestDTO } from "../../lib/dto/authRequestDTO";
   import { API_URL } from "../../util/global";
   import { writeSessionValue } from "../../util/helpers/sessionStorageHandler";

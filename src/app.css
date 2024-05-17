@@ -32,6 +32,9 @@ body {
   margin: 5vh 0;
   width: 60%;
   height: 100%;
+
+  display: flex;
+  justify-content: center;
 }
 
 button {

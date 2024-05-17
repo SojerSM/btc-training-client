@@ -16,5 +16,6 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 55vw;
   }
 </style>

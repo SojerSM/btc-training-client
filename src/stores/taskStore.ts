@@ -3,6 +3,7 @@ import { type Task } from "../lib/domain/task";
 import { sendHttpRequest } from "../util/helpers/httpRestHandler";
 import { API_URL } from "../util/global";
 import type { Filter } from "../lib/enum/filter";
+import type { TaskDTO } from "../lib/dto/taskDTO";
 
 const initialTasks: Task[] = [];
 const selectedId: number[] = [];
@@ -54,4 +55,14 @@ export const fetchByTitle = async (title: string) => {
       method: "GET",
     })
   );
+};
+
+export const updateTask = async (id: number, task: TaskDTO) => {
+  const data = await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(task),
+  });
+
+  return data;
 };

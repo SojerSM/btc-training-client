@@ -4,6 +4,7 @@ import { sendHttpRequest } from "../util/helpers/httpRestHandler";
 import { API_URL } from "../util/global";
 import { Filter } from "../lib/enum/filter";
 import type { TaskDTO } from "../lib/dto/taskDTO";
+import { readSessionValue } from "../util/helpers/sessionStorageHandler";
 
 const initialTasks: Task[] = [];
 const selectedId: number[] = [];
@@ -51,6 +52,9 @@ export const fetchTasks = async (filter: Filter) => {
   setTasks(
     await sendHttpRequest<Task[]>(API_URL.concat(`/task?filter=${filter}`), {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${readSessionValue("jwt")}`,
+      },
     })
   );
 };
@@ -59,6 +63,9 @@ export const fetchByTitle = async (title: string) => {
   setTasks(
     await sendHttpRequest<Task[]>(API_URL.concat(`/task?title=${title}`), {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${readSessionValue("jwt")}`,
+      },
     })
   );
 };
@@ -66,7 +73,10 @@ export const fetchByTitle = async (title: string) => {
 export const updateTask = async (id: number, task: TaskDTO) => {
   await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${readSessionValue("jwt")}`,
+    },
     body: JSON.stringify(task),
   });
 

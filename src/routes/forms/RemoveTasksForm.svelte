@@ -4,6 +4,7 @@
   import { selected, removeById, setSelected } from "../../stores/taskStore";
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import { API_URL } from "../../util/global";
+  import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
 
   const { close } = getContext<Context>("simple-modal");
 
@@ -12,7 +13,10 @@
   const handleRemove = async () => {
     await sendHttpRequest<number[]>(API_URL.concat("/task"), {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${readSessionValue("jwt")}`,
+      },
       body: JSON.stringify($selected),
     });
 

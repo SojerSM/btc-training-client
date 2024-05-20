@@ -3,6 +3,7 @@
   import { type TaskDTO } from "../../lib/dto/taskDTO";
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import { addTask } from "../../stores/taskStore";
+  import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
 
   let title: string;
   let deadline: Date;
@@ -15,11 +16,12 @@
       finished,
     };
 
-    console.log(task);
-
     const data = await sendHttpRequest<TaskDTO>(API_URL.concat("/task"), {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${readSessionValue("jwt")}`,
+      },
       body: JSON.stringify(task),
     });
 

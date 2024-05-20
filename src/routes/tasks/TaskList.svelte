@@ -4,7 +4,7 @@
   import { tasks, fetchTasks, fetchByTitle } from "../../stores/taskStore";
   import { Filter } from "../../lib/enum/filter";
 
-  let searchQuery: string;
+  let searchQuery: string = "";
 
   onMount(async () => {
     await fetchTasks(Filter.ALL);
@@ -13,8 +13,8 @@
   const searchByTitle = async (event: KeyboardEvent) => {
     if (event.key === "Enter") {
       const query = (event.target as HTMLInputElement).value.trim();
-      console.log(query);
       await fetchByTitle(query);
+      searchQuery = "";
     }
   };
 </script>
@@ -24,6 +24,7 @@
     id="search-field"
     type="text"
     placeholder="wyszukaj"
+    bind:value={searchQuery}
     on:keydown={searchByTitle}
   />
   <div class="labels">

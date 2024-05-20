@@ -20,6 +20,8 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@svelteuidev/composables": "^0.15.6",
+    "@svelteuidev/core": "^0.15.6",
     "svelte-simple-modal": "^1.6.2"
   }
 }

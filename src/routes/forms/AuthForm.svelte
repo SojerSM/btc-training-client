@@ -3,6 +3,8 @@
   import type { AuthRequestDTO } from "../../lib/dto/authRequestDTO";
   import { API_URL } from "../../util/global";
   import { writeSessionValue } from "../../util/helpers/sessionStorageHandler";
+  import GoogleAuthButton from "../actions/GoogleAuth.svelte";
+  import { Input } from "@svelteuidev/core";
 
   let username: string = "";
   let password: string = "";
@@ -41,9 +43,11 @@
 <div>
   <h2>Logowanie</h2>
   <form on:submit|preventDefault={authorize}>
-    <input type="text" placeholder="login" bind:value={username} />
-    <input type="password" placeholder="hasło" bind:value={password} />
-    <button on:click|preventDefault={authorize}> Sign in </button>
+    <Input bind:value={username} placeholder="nazwa użytkownika" />
+    <Input bind:value={password} placeholder="hasło" />
+    <button on:click|preventDefault={authorize}> Zaloguj </button>
+    <span>lub</span>
+    <GoogleAuthButton />
   </form>
   {#if !requestSuccess}
     <p>Nie znaleziono użytkownika</p>
@@ -75,15 +79,11 @@
     gap: 1rem;
   }
 
-  input {
-    border: 1px solid lightgray;
-    outline: none;
-    padding: 0.25rem;
-    width: 100%;
-    border-radius: 5px;
-  }
-
   p {
     color: red;
+  }
+
+  span {
+    font-size: 0.8rem;
   }
 </style>

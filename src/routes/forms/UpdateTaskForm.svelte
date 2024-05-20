@@ -3,6 +3,7 @@
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import { API_URL } from "../../util/global";
   import { updateTask } from "../../stores/taskStore";
+  import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
 
   export let id;
 
@@ -18,12 +19,6 @@
     };
 
     updateTask(id, task);
-
-    const data = await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task),
-    });
   };
 </script>
 

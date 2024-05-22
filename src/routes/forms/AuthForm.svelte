@@ -32,6 +32,7 @@
 
         requestSuccess = true;
         writeSessionValue("jwt", data.accessToken);
+        writeSessionValue("accountId", data.accountId);
         navigate("/todo", { replace: true });
       }
     } catch (error) {
@@ -44,7 +45,7 @@
   <h2>Logowanie</h2>
   <form on:submit|preventDefault={authorize}>
     <Input bind:value={username} placeholder="nazwa użytkownika" />
-    <Input bind:value={password} placeholder="hasło" />
+    <Input type="password" bind:value={password} placeholder="hasło" />
     <button on:click|preventDefault={authorize}> Zaloguj </button>
     <span>lub</span>
     <GoogleAuthButton />

@@ -49,24 +49,32 @@ export const removeById = (ids: number[]) => {
 };
 
 export const fetchTasks = async (filter: Filter) => {
+  const id = readSessionValue("accountId");
   setTasks(
-    await sendHttpRequest<Task[]>(API_URL.concat(`/task?filter=${filter}`), {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${readSessionValue("jwt")}`,
-      },
-    })
+    await sendHttpRequest<Task[]>(
+      API_URL.concat(`/task?accountId=${id}&filter=${filter}`),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${readSessionValue("jwt")}`,
+        },
+      }
+    )
   );
 };
 
 export const fetchByTitle = async (title: string) => {
+  const id = readSessionValue("accountId");
   setTasks(
-    await sendHttpRequest<Task[]>(API_URL.concat(`/task?title=${title}`), {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${readSessionValue("jwt")}`,
-      },
-    })
+    await sendHttpRequest<Task[]>(
+      API_URL.concat(`/task?accountId=${id}&title=${title}`),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${readSessionValue("jwt")}`,
+        },
+      }
+    )
   );
 };
 

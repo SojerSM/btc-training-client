@@ -5,3 +5,8 @@ export const writeSessionValue = (key: string, value: string) => {
 export const readSessionValue = (key: string): string | null => {
   return sessionStorage.getItem(key);
 };
+
+export const clearSessionStorage = () => {
+  sessionStorage.removeItem("jwt");
+  sessionStorage.removeItem("accountId");
+};

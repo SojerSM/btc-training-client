@@ -5,6 +5,8 @@
   import RemoveTasksForm from "../forms/RemoveTasksForm.svelte";
   import { Filter } from "../../lib/enum/filter";
   import { fetchTasks, setCurrentFilter } from "../../stores/taskStore";
+  import { navigate } from "svelte-routing";
+  import { clearSessionStorage } from "../../util/helpers/sessionStorageHandler";
 
   const { open } = getContext<Context>("simple-modal");
   const showModalAdd = () => open(AddTaskForm);
@@ -14,31 +16,41 @@
     fetchTasks(filter);
     setCurrentFilter(filter);
   };
+
+  const handleLogout = () => {
+    clearSessionStorage();
+    navigate("/");
+  };
 </script>
 
 <div class="internal-nav">
-  <ul>
-    <li>
-      <button class="option" on:click={() => handleClick(Filter.ALL)}
-        >Wszystkie</button
-      >
-    </li>
-    <li>
-      <button class="option" on:click={() => handleClick(Filter.DONE)}
-        >Wykonane</button
-      >
-    </li>
-    <li>
-      <button class="option" on:click={() => handleClick(Filter.PENDING)}
-        >Oczekujące</button
-      >
-    </li>
-    <li>
-      <button class="option" on:click={() => handleClick(Filter.OUTDATED)}
-        >Przeterminowane</button
-      >
-    </li>
-  </ul>
+  <div class="upper">
+    <div>
+      <ul>
+        <li>
+          <button class="option" on:click={() => handleClick(Filter.ALL)}
+            >Wszystkie</button
+          >
+        </li>
+        <li>
+          <button class="option" on:click={() => handleClick(Filter.DONE)}
+            >Wykonane</button
+          >
+        </li>
+        <li>
+          <button class="option" on:click={() => handleClick(Filter.PENDING)}
+            >Oczekujące</button
+          >
+        </li>
+        <li>
+          <button class="option" on:click={() => handleClick(Filter.OUTDATED)}
+            >Przeterminowane</button
+          >
+        </li>
+      </ul>
+    </div>
+    <button class="logout" on:click={() => handleLogout()}>Logout</button>
+  </div>
   <div class="action-btns">
     <button on:click={showModalAdd}>Dodaj</button>
     <button on:click={showModalDel}>Usuń</button>
@@ -84,5 +96,17 @@
 
   .option {
     all: unset;
+  }
+
+  .upper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .logout {
+    background-color: rgb(160, 59, 255);
+    color: white;
   }
 </style>

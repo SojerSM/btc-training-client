@@ -10,27 +10,33 @@
   let finished: boolean;
 
   const handleSubmit = async () => {
-    const task: TaskDTO = {
-      title,
-      deadline,
-      finished,
-    };
+    const accountId = readSessionValue("accountId");
 
-    const data = await sendHttpRequest<TaskDTO>(API_URL.concat("/task"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${readSessionValue("jwt")}`,
-      },
-      body: JSON.stringify(task),
-    });
+    if (accountId) {
+      const task: TaskDTO = {
+        title,
+        deadline,
+        finished,
+        accountId: +accountId,
+      };
 
-    addTask({
-      id: data.id,
-      title: task.title,
-      finished: task.finished,
-      deadline: task.deadline,
-    });
+      const data = await sendHttpRequest<TaskDTO>(API_URL.concat("/task"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${readSessionValue("jwt")}`,
+        },
+        body: JSON.stringify(task),
+      });
+
+      addTask({
+        id: data.id,
+        title: task.title,
+        finished: task.finished,
+        deadline: task.deadline,
+        accountId: +accountId,
+      });
+    }
   };
 </script>
 

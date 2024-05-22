@@ -12,7 +12,6 @@
   let badResponseMsg: string = "";
 
   const handleCredentialResponse = async (response: any) => {
-    console.log(response);
     const verificationResponse = await fetch(
       API_URL.concat(`/auth/verifyWithProvider?provider=${provider}`),
       {
@@ -29,8 +28,6 @@
       writeSessionValue("jwt", data.accessToken);
       writeSessionValue("accountId", data.accountId);
       navigate("/todo", { replace: true });
-
-      console.log(data);
     } else if (verificationResponse.status === 403) {
       requestSuccess = false;
       badResponseMsg = "Logowanie przez konto Google niedostępne.";

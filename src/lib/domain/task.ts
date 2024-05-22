@@ -3,4 +3,5 @@ export type Task = {
   title: string;
   deadline: Date;
   finished: boolean;
+  accountId: number;
 };

@@ -1,9 +1,14 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+  import type { Context } from "svelte-simple-modal";
   import { API_URL } from "../../util/global";
   import { type TaskDTO } from "../../lib/dto/taskDTO";
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import { addTask } from "../../stores/taskStore";
   import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
+  import toast, { Toaster } from "svelte-french-toast";
+
+  const { close } = getContext<Context>("simple-modal");
 
   let title: string;
   let deadline: Date;
@@ -29,6 +34,11 @@
         body: JSON.stringify(task),
       });
 
+      if (data === null) {
+        toast.error("Coś poszło nie tak.");
+        return;
+      }
+
       addTask({
         id: data.id,
         title: task.title,
@@ -36,6 +46,8 @@
         deadline: task.deadline,
         accountId: +accountId,
       });
+
+      close();
     }
   };
 </script>
@@ -48,6 +60,7 @@
     <input type="checkbox" bind:checked={finished} />
     <button type="button" on:click={handleSubmit}>Dodaj</button>
   </form>
+  <Toaster />
 </div>
 
 <style>

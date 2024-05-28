@@ -5,6 +5,7 @@
   import { writeSessionValue } from "../../util/helpers/sessionStorageHandler";
   import GoogleAuthButton from "../actions/GoogleAuth.svelte";
   import { Input } from "@svelteuidev/core";
+  import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
 
   let username: string = "";
   let password: string = "";
@@ -17,13 +18,18 @@
     };
 
     try {
-      const response = await fetch(API_URL.concat("/auth/authenticate"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(request),
-      });
+      const result = await sendHttpRequest(
+        API_URL.concat("/auth/authenticate"),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
+        }
+      );
+
+      const [response, data] = result;
 
       if (response.status != 200) {
         requestSuccess = false;
@@ -86,5 +92,10 @@
 
   span {
     font-size: 0.8rem;
+  }
+
+  button {
+    background-color: rgb(160, 59, 255);
+    color: white;
   }
 </style>

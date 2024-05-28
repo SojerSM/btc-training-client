@@ -79,14 +79,19 @@ export const fetchByTitle = async (title: string) => {
 };
 
 export const updateTask = async (id: number, task: TaskDTO) => {
-  await sendHttpRequest<TaskDTO>(API_URL.concat(`/task/${id}`), {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${readSessionValue("jwt")}`,
-    },
-    body: JSON.stringify(task),
-  });
+  const response = await sendHttpRequest<TaskDTO>(
+    API_URL.concat(`/task/${id}`),
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${readSessionValue("jwt")}`,
+      },
+      body: JSON.stringify(task),
+    }
+  );
 
   fetchTasks(get(currentFilter));
+
+  return response;
 };

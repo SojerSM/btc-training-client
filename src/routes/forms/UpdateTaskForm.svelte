@@ -1,24 +1,33 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+  import type { Context } from "svelte-simple-modal";
   import type { TaskDTO } from "../../lib/dto/taskDTO";
-  import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
-  import { API_URL } from "../../util/global";
   import { updateTask } from "../../stores/taskStore";
-  import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
+  import toast, { Toaster } from "svelte-french-toast";
 
-  export let id;
+  export let task;
 
-  let title: string;
-  let deadline: Date;
-  let finished: boolean;
+  const { close } = getContext<Context>("simple-modal");
+
+  let title: string = task.title;
+  let deadline: Date = task.deadline;
+  let finished: boolean = task.finished;
 
   const handleSubmit = async () => {
-    const task: TaskDTO = {
+    const dto: TaskDTO = {
       title,
       deadline,
       finished,
+      accountId: task.id,
     };
 
-    updateTask(id, task);
+    const response = await updateTask(task.id, dto);
+
+    if (response === null) {
+      toast.error("Coś poszło nie tak.");
+      return;
+    }
+    close();
   };
 </script>
 
@@ -30,6 +39,7 @@
     <input type="checkbox" bind:checked={finished} />
     <button type="button" on:click={handleSubmit}>Dodaj</button>
   </form>
+  <Toaster />
 </div>
 
 <style>

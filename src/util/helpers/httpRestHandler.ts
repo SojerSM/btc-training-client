@@ -6,8 +6,11 @@ export const sendHttpRequest = async <T>(
 ) => {
   try {
     const response = await fetch(url, options);
+
+    if (!response.status.toString().startsWith("2")) {
+      return null;
+    }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching data: ", error);

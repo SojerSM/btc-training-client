@@ -13,7 +13,7 @@
   import { formatDate } from "../../util/helpers/dateUtils";
 
   const { open } = getContext<Context>("simple-modal");
-  const showModal = () => open(UpdateTaskForm, { id: task.id });
+  const showModal = () => open(UpdateTaskForm, { task: task });
 
   const handleSelect = (event: Event) => {
     const isChecked: boolean = (event.target as HTMLInputElement).checked;
@@ -24,6 +24,7 @@
     const isChecked: boolean = (event.target as HTMLInputElement).checked;
 
     const updated: TaskDTO = {
+      accountId: task.accountId,
       title: task.title,
       deadline: task.deadline,
       finished: isChecked,

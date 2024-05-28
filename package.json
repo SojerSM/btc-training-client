@@ -22,6 +22,7 @@
   "dependencies": {
     "@svelteuidev/composables": "^0.15.6",
     "@svelteuidev/core": "^0.15.6",
+    "svelte-french-toast": "^1.2.0",
     "svelte-simple-modal": "^1.6.2"
   }
 }

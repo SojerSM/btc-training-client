@@ -27,6 +27,8 @@
       toast.error("Coś poszło nie tak.");
       return;
     }
+
+    toast.success("Poprawnie zaktualizowano zadanie.");
     close();
   };
 </script>

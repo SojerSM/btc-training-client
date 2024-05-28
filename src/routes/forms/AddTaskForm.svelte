@@ -6,7 +6,7 @@
   import { sendHttpRequest } from "../../util/helpers/httpRestHandler";
   import { addTask } from "../../stores/taskStore";
   import { readSessionValue } from "../../util/helpers/sessionStorageHandler";
-  import toast, { Toaster } from "svelte-french-toast";
+  import toast from "svelte-french-toast";
 
   const { close } = getContext<Context>("simple-modal");
 
@@ -47,6 +47,7 @@
         accountId: +accountId,
       });
 
+      toast.success("Dodano nowe zadanie.");
       close();
     }
   };
@@ -60,7 +61,6 @@
     <input type="checkbox" bind:checked={finished} />
     <button type="button" on:click={handleSubmit}>Dodaj</button>
   </form>
-  <Toaster />
 </div>
 
 <style>

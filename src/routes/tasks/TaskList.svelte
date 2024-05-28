@@ -3,30 +3,36 @@
   import TaskDetail from "./TaskDetail.svelte";
   import { tasks, fetchTasks, fetchByTitle } from "../../stores/taskStore";
   import { Filter } from "../../lib/enum/filter";
+  import { Input } from "@svelteuidev/core";
+  import { MagnifyingGlass } from "radix-icons-svelte";
 
-  let searchQuery: string = "";
+  let searchQuery: string;
 
   onMount(async () => {
     await fetchTasks(Filter.ALL);
+    searchQuery = "";
   });
 
   const searchByTitle = async (event: KeyboardEvent) => {
     if (event.key === "Enter") {
       const query = (event.target as HTMLInputElement).value.trim();
       await fetchByTitle(query);
-      searchQuery = "";
     }
   };
 </script>
 
 <div class="task-wrapper">
-  <input
-    id="search-field"
-    type="text"
-    placeholder="wyszukaj"
-    bind:value={searchQuery}
-    on:keydown={searchByTitle}
-  />
+  <div class="search-bar">
+    <Input
+      icon={MagnifyingGlass}
+      size="xs"
+      id="search-field"
+      type="text"
+      placeholder="wyszukaj"
+      bind:value={searchQuery}
+      on:keydown={searchByTitle}
+    />
+  </div>
   <div class="labels">
     <p>ZADANIE</p>
     <p>WYKONANE</p>
@@ -85,16 +91,12 @@
     margin-left: 2rem;
   }
 
-  #search-field {
-    border: none;
-    outline: none;
-    padding: 0.25rem;
-    width: 15rem;
-    border-radius: 5px;
-  }
-
   .alternative {
     margin-top: 1rem;
     align-self: center;
+  }
+
+  .search-bar {
+    width: 30%;
   }
 </style>

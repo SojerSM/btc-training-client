@@ -24,11 +24,15 @@
     const response = await updateTask(task.id, dto);
 
     if (response === null) {
-      toast.error("Coś poszło nie tak.");
+      toast.error("Coś poszło nie tak.", {
+        position: "bottom-center",
+      });
       return;
     }
 
-    toast.success("Poprawnie zaktualizowano zadanie.");
+    toast.success("Poprawnie zaktualizowano zadanie.", {
+      position: "bottom-center",
+    });
     close();
   };
 </script>

@@ -35,7 +35,9 @@
       });
 
       if (data === null) {
-        toast.error("Coś poszło nie tak.");
+        toast.error("Coś poszło nie tak.", {
+          position: "bottom-center",
+        });
         return;
       }
 
@@ -47,7 +49,9 @@
         accountId: +accountId,
       });
 
-      toast.success("Dodano nowe zadanie.");
+      toast.success("Dodano nowe zadanie.", {
+        position: "bottom-center",
+      });
       close();
     }
   };

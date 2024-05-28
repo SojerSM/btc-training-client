@@ -45,9 +45,9 @@
           <li><TaskDetail {task} /></li>
         {/each}
       {/key}
-    {/if}
-    {#if $tasks.length === 0}
-      <p class="alternative">Brak zadań do wyświetlenia.</p>
+      {#if $tasks.length === 0}
+        <p class="alternative">Brak zadań do wyświetlenia.</p>
+      {/if}
     {/if}
   </ul>
 </div>

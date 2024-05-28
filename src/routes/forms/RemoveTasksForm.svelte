@@ -20,14 +20,18 @@
     });
 
     if (response === null) {
-      toast.error("Coś poszło nie tak.");
+      toast.error("Coś poszło nie tak.", {
+        position: "bottom-center",
+      });
       close();
       return;
     }
 
     removeById($selected);
     setSelected([]);
-    toast.success("Poprawnie usunięto zaznaczone zadania.");
+    toast.success("Poprawnie usunięto zaznaczone zadania.", {
+      position: "bottom-center",
+    });
     close();
   };
 </script>

@@ -5,6 +5,3 @@
 <div>
   <AuthForm />
 </div>
-
-<style>
-</style>
